@@ -561,6 +561,7 @@ class WP_SQLite_Translator {
 	 */
 	public function query( $statement, $mode = PDO::FETCH_OBJ, ...$fetch_mode_args ) { // phpcs:ignore WordPress.DB.RestrictedClasses
 		$this->flush();
+
 		if ( function_exists( 'apply_filters' ) ) {
 			/**
 			 * Filters queries before they are translated and run.
@@ -590,6 +591,7 @@ class WP_SQLite_Translator {
 				return $pre;
 			}
 		}
+
 		$this->pdo_fetch_mode = $mode;
 		$this->mysql_query    = $statement;
 		if (
@@ -3216,6 +3218,7 @@ class WP_SQLite_Translator {
 
 		switch ( $what ) {
 			case 'TABLE':
+			case 'INDEX':
 				$this->rewriter->consume_all();
 				$this->execute_sqlite_query( $this->rewriter->get_updated_query() );
 				$this->results = $this->last_exec_returned;
