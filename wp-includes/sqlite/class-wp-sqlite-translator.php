@@ -1419,6 +1419,12 @@ class WP_SQLite_Translator {
 				break;
 			}
 
+			// entirely ignore the BINARY in LIKE BINARY 'whatever'
+			if ($this->last_reserved_keyword == "LIKE" && $token->value == "BINARY") {
+				$this->rewriter->skip();
+				continue;
+			}
+
 			$this->remember_last_reserved_keyword( $token );
 
 			if ( ! $table_name ) {
