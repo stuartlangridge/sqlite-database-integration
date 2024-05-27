@@ -251,13 +251,14 @@ class WP_SQLite_Translator_Tests extends TestCase {
 			"INSERT INTO _dates (option_name, option_value) VALUES ('first', '2003-05-27 10:08:48');"
 		);
 
-		$this->assertQuery( "SELECT option_value as d FROM _dates 
-			WHERE option_name LIKE BINARY '%irs%';" );
+		$this->assertQuery(
+			"SELECT option_value as d FROM _dates 
+			WHERE option_name LIKE BINARY '%irs%';"
+		);
 
 		$results = $this->engine->get_query_results();
 		$this->assertCount( 1, $results );
 		$this->assertEquals( '2003-05-27 10:08:48', $results[0]->d );
-
 	}
 
 	public function testSelectFromDual() {

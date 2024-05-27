@@ -1420,7 +1420,7 @@ class WP_SQLite_Translator {
 			}
 
 			// entirely ignore the BINARY in LIKE BINARY 'whatever'
-			if ($this->last_reserved_keyword == "LIKE" && $token->value == "BINARY") {
+			if ( 'LIKE' === $this->last_reserved_keyword && 'BINARY' === $token->value ) {
 				$this->rewriter->skip();
 				continue;
 			}
