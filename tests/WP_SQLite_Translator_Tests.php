@@ -550,6 +550,40 @@ class WP_SQLite_Translator_Tests extends TestCase {
 		);
 	}
 
+	public function testDropIndex() {
+		# call CREATE INDEX directly against sqlite (because
+		# the parser doesn't support CREATE INDEX yet), but
+		# drop it by passing the DROP INDEX query through the parser
+		$this->sqlite->query(
+			"CREATE TABLE wptests_dummy (
+				ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+				column TEXT NOT NULL default ''
+			);"
+		);
+		$this->sqlite->query(
+			'CREATE INDEX testsuite1 ON wptests_dummy (column)'
+		);
+
+		$result1 = $this->assertQuery( 'DROP INDEX testsuite1' );
+	}
+
+	public function testDropIndexOn() {
+		# call CREATE INDEX directly against sqlite (because
+		# the parser doesn't support CREATE INDEX yet), but
+		# drop it by passing the DROP INDEX query through the parser
+		$this->sqlite->query(
+			"CREATE TABLE wptests_dummy (
+				ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+				column TEXT NOT NULL default ''
+			);"
+		);
+		$this->sqlite->query(
+			'CREATE INDEX testsuite1 ON wptests_dummy (column)'
+		);
+
+		$result1 = $this->assertQuery( 'DROP INDEX testsuite1 ON wptests_dummy' );
+	}
+
 	public function testCreateTable() {
 		$result = $this->assertQuery(
 			"CREATE TABLE wptests_users (
