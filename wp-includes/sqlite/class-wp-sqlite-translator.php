@@ -3218,8 +3218,16 @@ class WP_SQLite_Translator {
 
 		switch ( $what ) {
 			case 'TABLE':
-			case 'INDEX':
 				$this->rewriter->consume_all();
+				$this->execute_sqlite_query( $this->rewriter->get_updated_query() );
+				$this->results = $this->last_exec_returned;
+				break;
+
+			case 'INDEX':
+				# MySQL supports DROP INDEX idx ON table
+				# sqlite only supports DROP INDEX idx
+				# so take the next token only as the index name
+				$this->rewriter->consume();
 				$this->execute_sqlite_query( $this->rewriter->get_updated_query() );
 				$this->results = $this->last_exec_returned;
 				break;
